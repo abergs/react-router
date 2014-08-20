@@ -14,7 +14,8 @@ var RESERVED_PROPS = {
   className: true,
   activeClassName: true,
   query: true,
-  children: true // ReactChildren
+  children: true, // ReactChildren
+  onClick: true
 };
 
 /**
@@ -114,7 +115,13 @@ var Link = React.createClass({
 
     event.preventDefault();
 
-    transitionTo(this.props.to, this.getParams(), this.props.query);
+    var shouldTransition = true;
+    
+    if(this.props.onClick)
+      shouldTransition = !(this.props.onClick() === false);
+
+    if(shouldTransition)
+      transitionTo(this.props.to, this.getParams(), this.props.query);    
   },
 
   render: function () {
